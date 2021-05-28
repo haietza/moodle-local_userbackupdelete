@@ -25,6 +25,6 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version = 2021052601;
+$plugin->version = 2021052800;
 $plugin->requires = 2020110902;
 $plugin->component = 'local_userbackupdelete';

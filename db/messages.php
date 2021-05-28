@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Plugin settings.
+ * Plugin messaging settings.
  *
  * @package   local_userbackupdelete
  * @author    Michelle Melton <meltonml@appstate.edu>
@@ -23,16 +23,14 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die;
+defined('MOODLE_INTERNAL') || die();
 
-// Ensure the configurations for this site are set.
-if ($hassiteconfig) {
-    //$settingscategory = new admin_category('covidcohort', get_string('pluginname', 'local_covidcohort'));
-    //$ADMIN->add('localplugins', $settingscategory);
-
-    $settings = new admin_settingpage('local_userbackupdelete_settings', get_string('pluginname', 'local_userbackupdelete'));
-    $settings->add(new admin_setting_configduration('local_userbackupdelete/keepfiles', get_string('keepfiles', 'local_userbackupdelete'), get_string('keepfiles_desc', 'local_userbackupdelete'), 30 * DAYSECS));
-    $settings->add(new admin_setting_configduration('local_userbackupdelete/notify', get_string('notify', 'local_userbackupdelete'), get_string('notify_desc', 'local_userbackupdelete'), 7 * DAYSECS));
-    
-    $ADMIN->add('localplugins', $settings);
-}
+$messageproviders = array (
+    'userbackupdeletemessage' => array (
+        'defaults' => array(
+            'email' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_LOGGEDIN + MESSAGE_DEFAULT_LOGGEDOFF,
+            'instantmessage' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_LOGGEDIN + MESSAGE_DEFAULT_LOGGEDOFF,
+            'anyotheroutput' => MESSAGE_PERMITTED,
+        ),
+    ),
+);

@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Plugin settings.
+ * Scheduled tasks for plugin.
  *
  * @package   local_userbackupdelete
  * @author    Michelle Melton <meltonml@appstate.edu>
@@ -25,9 +25,32 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'User backup delete';
-$string['getfiles'] = 'Get user backup files to delete';
-$string['deletefiles'] = 'Delete user backup files';
-$string['notifyusers'] = 'Notify users of backup files to be deleted';
-$string['messagesubject'] = 'Files in user private backup area to be deleted';
-$string['messagebody'] = '<p>The following files in your user private backup area are over 30 days old. They will be permanently deleted {$a->deletedate}.</p> {$a->filelist}';
+$tasks = array(
+    array(
+        'classname' => 'local_userbackupdelete\task\get_files_to_delete',
+        'blocking' => 0,
+        'minute' => '5',
+        'hour' => '3',
+        'day' => '1',
+        'dayofweek' => '*',
+        'month' => '*'
+    ),
+    array(
+        'classname' => 'local_userbackupdelete\task\notify_users',
+        'blocking' => 0,
+        'minute' => '5',
+        'hour' => '4',
+        'day' => '1',
+        'dayofweek' => '*',
+        'month' => '*'
+    ),
+    array(
+        'classname' => 'local_userbackupdelete\task\delete_files',
+        'blocking' => 0,
+        'minute' => '5',
+        'hour' => '3',
+        'day' => '8',
+        'dayofweek' => '*',
+        'month' => '*'
+    )
+);
