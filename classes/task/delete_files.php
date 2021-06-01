@@ -44,7 +44,7 @@ class delete_files extends \core\task\scheduled_task {
     public function get_name() {
         return get_string('deletefiles', 'local_userbackupdelete');
     }
-    
+
     /**
      * Execute scheduled task.
      * {@inheritDoc}
@@ -52,14 +52,15 @@ class delete_files extends \core\task\scheduled_task {
      */
     public function execute() {
         global $DB;
-        
+
         $files = $DB->get_records('local_userbackupdelete');
-        
+
         $fs = get_file_storage();
-        
+
         foreach ($files as $file) {
             $filerecord = $fs->get_file_by_id($file->fileid);
-            mtrace('Deleting fileid ' . $filerecord->get_id() . ' filename ' . $filerecord->get_filename() . ' for userid ' . $filerecord->get_userid());
+            mtrace('Deleting fileid ' . $filerecord->get_id() . ' filename ' .
+                $filerecord->get_filename() . ' for userid ' . $filerecord->get_userid());
             if ($filerecord) {
                 $filerecord->delete();
                 $DB->delete_records('local_userbackupdelete', array('fileid' => $filerecord->get_id()));

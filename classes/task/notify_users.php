@@ -45,7 +45,7 @@ class notify_users extends \core\task\scheduled_task {
     public function get_name() {
         return get_string('notifyusers', 'local_userbackupdelete');
     }
-    
+
     /**
      * Execute scheduled task.
      * {@inheritDoc}
@@ -53,11 +53,12 @@ class notify_users extends \core\task\scheduled_task {
      */
     public function execute() {
         global $DB;
-        
+
         $sql = "SELECT DISTINCT userid
                 FROM {local_userbackupdelete}";
-        
+
         $users = $DB->get_records_sql($sql);
+
         foreach ($users as $user) {
             $userfiles = $DB->get_records('local_userbackupdelete', array('userid' => $user->userid));
             notify_user($userfiles);

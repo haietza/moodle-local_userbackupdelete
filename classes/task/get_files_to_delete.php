@@ -44,7 +44,7 @@ class get_files_to_delete extends \core\task\scheduled_task {
     public function get_name() {
         return get_string('getfiles', 'local_userbackupdelete');
     }
-    
+
     /**
      * Execute scheduled task.
      * {@inheritDoc}
@@ -52,24 +52,22 @@ class get_files_to_delete extends \core\task\scheduled_task {
      */
     public function execute() {
         global $DB;
-        
+
         $deletetime = time() - (30 * DAYSECS);
-        
+
         $sql = "SELECT f.id as fileid, u.id as userid, f.filename as filename
                 FROM {files} f
                 JOIN {user} u
                 ON f.userid = u.id
-                WHERE f.component = 'user' 
-                AND f.filearea = 'backup' 
-                AND f.filename != '.' 
-                AND u.username LIKE '%@appstate.edu' 
+                WHERE f.component = 'user'
+                AND f.filearea = 'backup'
+                AND f.filename != '.'
+                AND u.username LIKE '%@appstate.edu'
                 AND f.filename LIKE 'backup-moodle2-%'
                 AND f.timemodified < {$deletetime}";
-        
-        // fileid not coming in?
-        // don't duplicate if already in there
+
         $filestodelete = $DB->get_records_sql($sql);
-        
+
         foreach ($filestodelete as $file) {
             $dataobject = new \stdClass();
             $dataobject->fileid = $file->fileid;
