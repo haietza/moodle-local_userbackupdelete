@@ -31,3 +31,4 @@ $string['deletefiles'] = 'Delete user backup files';
 $string['notifyusers'] = 'Notify users of backup files to be deleted';
 $string['messagesubject'] = 'Files in user private backup area to be deleted';
 $string['messagebody'] = '<p>The following files in your user private backup area are over 30 days old. They will be permanently deleted {$a->deletedate}.</p> {$a->filelist} <p>To learn more about user private backup files and how to access and download them, view <a href="https://confluence.appstate.edu/x/aIYxBw">Accessing User Backups</a> in the ATKB.</p>';
+$string['messageprovider:userbackupdeletemessage'] = 'User backup delete notifications';
