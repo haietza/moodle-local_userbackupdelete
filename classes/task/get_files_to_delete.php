@@ -55,7 +55,7 @@ class get_files_to_delete extends \core\task\scheduled_task {
 
         $deletetime = time() - (30 * DAYSECS);
 
-        $sql = "SELECT f.id as fileid, u.id as userid, f.filename as filename
+        $sql = "SELECT f.pathnamehash as pathnamehash, u.id as userid, f.filename as filename
                 FROM {files} f
                 JOIN {user} u
                 ON f.userid = u.id
@@ -70,7 +70,7 @@ class get_files_to_delete extends \core\task\scheduled_task {
 
         foreach ($filestodelete as $file) {
             $dataobject = new \stdClass();
-            $dataobject->fileid = $file->fileid;
+            $dataobject->pathnamehash = $file->pathnamehash;
             $dataobject->userid = $file->userid;
             $dataobject->filename = $file->filename;
             $DB->insert_record('local_userbackupdelete', $dataobject);

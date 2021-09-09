@@ -58,12 +58,11 @@ class delete_files extends \core\task\scheduled_task {
         $fs = get_file_storage();
 
         foreach ($files as $file) {
-            $filerecord = $fs->get_file_by_id($file->fileid);
-            mtrace('Deleting fileid ' . $filerecord->get_id() . ' filename ' .
-                $filerecord->get_filename() . ' for userid ' . $filerecord->get_userid());
+            $filerecord = $fs->get_file_by_hash($file->pathnamehash);
+            mtrace('Deleting  filename ' . $filerecord->get_filename() . ' for userid ' . $filerecord->get_userid());
             if ($filerecord) {
                 $filerecord->delete();
-                $DB->delete_records('local_userbackupdelete', array('fileid' => $filerecord->get_id()));
+                $DB->delete_records('local_userbackupdelete', array('pathnamehash' => $filerecord->get_pathnamehash()));
             }
         }
     }
