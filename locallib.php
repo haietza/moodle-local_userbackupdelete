@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 function notify_user($userfiles) {
-    global $DB;
+    global $DB, $SITE;
 
     $filelist = '<ul>';
     foreach ($userfiles as $userfile) {
@@ -40,8 +40,9 @@ function notify_user($userfiles) {
     $a = new \stdClass();
     $a->deletedate = $deletedate;
     $a->filelist = $filelist;
+    $a->sitename = $SITE->fullname;
 
-    $messagesubject = get_string('messagesubject', 'local_userbackupdelete');
+    $messagesubject = get_string('messagesubject', 'local_userbackupdelete', $a);
     $messagebody = get_string('messagebody', 'local_userbackupdelete', $a);
 
     $message = new \core\message\message();
