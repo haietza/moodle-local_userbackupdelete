@@ -34,8 +34,13 @@ function notify_user($userfiles) {
     }
     $filelist .= '</ul>';
 
-    $nextruntime = $DB->get_field('task_scheduled', 'nextruntime', array('classname' => '\local_userbackupdelete\task\delete_files'));
-    $deletedate = date('m-d-Y H:i', $nextruntime);
+    $nextruntime = $DB->get_field('task_scheduled', 'nextruntime',
+        array('classname' => '\local_userbackupdelete\task\delete_files'));
+    if ($nextruntime) {
+        $deletedate = date('m-d-Y H:i', $nextruntime);
+    } else {
+        $deletedate = date('m-d-Y H:i', strtotime('+1 Week'));
+    }
 
     $a = new \stdClass();
     $a->deletedate = $deletedate;

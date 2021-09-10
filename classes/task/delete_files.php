@@ -59,11 +59,14 @@ class delete_files extends \core\task\scheduled_task {
 
         foreach ($files as $file) {
             $filerecord = $fs->get_file_by_hash($file->pathnamehash);
-            mtrace('Deleting  filename ' . $filerecord->get_filename() . ' for userid ' . $filerecord->get_userid());
             if ($filerecord) {
+                mtrace('Deleting  filename ' . $filerecord->get_filename() . ' for userid ' . $filerecord->get_userid());
                 $filerecord->delete();
-                $DB->delete_records('local_userbackupdelete', array('pathnamehash' => $filerecord->get_pathnamehash()));
+            } else {
+                mtrace('File ' . $filerecord->get_filename() . ' for userid ' . $filerecord->get_userid()
+                    . ' does not exist; deleting userbackupdelete record.');
             }
+            $DB->delete_records('local_userbackupdelete', array('pathnamehash' => $filerecord->get_pathnamehash()));
         }
     }
 }
