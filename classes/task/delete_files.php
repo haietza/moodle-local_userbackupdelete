@@ -1,4 +1,4 @@
-<?php
+ <?php
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -63,10 +63,10 @@ class delete_files extends \core\task\scheduled_task {
                 mtrace('Deleting  filename ' . $filerecord->get_filename() . ' for userid ' . $filerecord->get_userid());
                 $filerecord->delete();
             } else {
-                mtrace('File ' . $filerecord->get_filename() . ' for userid ' . $filerecord->get_userid()
+                mtrace('File ' . $file->pathnamehash . ' for userid ' . $file->get_userid()
                     . ' does not exist; deleting userbackupdelete record.');
             }
-            $DB->delete_records('local_userbackupdelete', array('pathnamehash' => $filerecord->get_pathnamehash()));
+            $DB->delete_records('local_userbackupdelete', array('pathnamehash' => $file->pathnamehash));
         }
     }
 }

@@ -70,17 +70,17 @@ function xmldb_local_userbackupdelete_upgrade($oldversion) {
             $dbman->add_field($table, $field);
         }
 
+        // Update existing records.
+        foreach ($userbackups as $userbackup) {
+            $DB->update_record('local_userbackupdelete', $userbackup);
+        }
+
         // Define pathnamehash index.
         $index = new xmldb_index('pathnamehash', XMLDB_INDEX_UNIQUE, ['pathnamehash']);
 
         // Conditionally launch add index pathnamehash.
         if (!$dbman->index_exists($table, $index)) {
             $dbman->add_index($table, $index);
-        }
-
-        // Update existing records.
-        foreach ($userbackups as $userbackup) {
-            $DB->update_record('local_userbackupdelete', $userbackup);
         }
 
         upgrade_plugin_savepoint(true, 2021090900, 'local', 'userbackupdelete');
