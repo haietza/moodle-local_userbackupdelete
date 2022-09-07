@@ -73,7 +73,12 @@ class get_files_to_delete extends \core\task\scheduled_task {
             $dataobject->pathnamehash = $file->pathnamehash;
             $dataobject->userid = $file->userid;
             $dataobject->filename = $file->filename;
-            $DB->insert_record('local_userbackupdelete', $dataobject);
+            try {
+                $DB->insert_record('local_userbackupdelete', $dataobject);
+            } catch (\dml_exception $e) {
+                mtrace('DML exception: ' . $e->getMessage());
+            }
+            
         }
     }
 }
